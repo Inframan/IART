@@ -9,7 +9,7 @@ public class NewtworkTest {
 
 	@Test
 	public void propagationTest() {
-		Network net = new Network(3,2);
+		Network net = new Network(3,2,0.5,0.5);
 		double input[] = {1.0, 1.3, 1.5};
 		
 		net.frontPropagation(input);

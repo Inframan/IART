@@ -5,12 +5,16 @@ import java.util.ArrayList;
 public class Neuron {
 
 	private double value;
+	private double delta;
+	private double errorFactor;
 	private ArrayList<Double> weights;
 	
 	public Neuron(int weightsSize) {
 		// TODO Auto-generated constructor stub
 		
 		value = 0;
+		delta = 0;
+		errorFactor = 0;
 		//Currents weights for all inputs
 		weights = new ArrayList<Double>();
 		for(int i = 0; i < weightsSize;i++)
@@ -18,6 +22,33 @@ public class Neuron {
 	}
 	
 	
+
+	public double getErrorFactor() {
+		return errorFactor;
+	}
+
+
+
+	public void setErrorFactor(double errorFactor) {
+		this.errorFactor = errorFactor;
+	}
+
+	public void addErrorFactor(double errorFactor){
+		this.errorFactor += errorFactor;
+	}
+
+
+	public double getDelta() {
+		return delta;
+	}
+
+
+
+	public void setDelta(double delta) {
+		this.delta = delta;
+	}
+
+
 
 	public double getValue() {
 		return value;
