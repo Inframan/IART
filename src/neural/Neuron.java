@@ -1,12 +1,17 @@
 package neural;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Neuron {
 
 	private double value;
 	private double delta;
 	private double errorFactor;
+	private double bias;
+
+
+
 	private ArrayList<Double> weights;
 	
 	public Neuron(int weightsSize) {
@@ -19,9 +24,24 @@ public class Neuron {
 		weights = new ArrayList<Double>();
 		for(int i = 0; i < weightsSize;i++)
 			weights.add(1.0);
+		
+		Random randomBias = new Random();
+		bias = randomBias.nextDouble();
 	}
 	
 	
+	public double getBias() {
+		return bias;
+	}
+	
+	public void updateBias(double learningRate){
+		bias += learningRate*delta;
+	}
+	
+	
+	public void setBias(double bias) {
+		this.bias = bias;
+	}
 
 	public double getErrorFactor() {
 		return errorFactor;

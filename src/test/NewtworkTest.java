@@ -18,6 +18,15 @@ public class NewtworkTest {
 		
 		assertEquals("1st Output Expected: ", 2.0, net.getOutputLayer().listIterator(0).next().getValue(), 1.3);
 		
+		
+	}
+	@Test
+	public void initialBiasTest(){
+		
+		Neuron n = new Neuron(0);
+		
+		System.out.println("bias:" + n.getBias());
+		assertEquals("random bias:",0.5,n.getBias(),0.5);
 	}
 
 }
