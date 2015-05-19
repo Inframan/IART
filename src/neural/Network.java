@@ -6,11 +6,14 @@ public class Network {
 	private ArrayList<Neuron> inputLayer, hiddenLayer, outputLayer;
 	private int inputSize, outputSize, mean;//Layer size
 	
+	
 	public Network(int inputNumber,int outputNumber) {
 		// TODO Auto-generated constructor stub
 		inputSize = inputNumber;
 		outputSize = outputNumber;
 		mean = (inputNumber + outputNumber) /2; 
+		
+		
 		
 		inputLayer = new ArrayList<Neuron>();
 		hiddenLayer = new ArrayList<Neuron>();
@@ -41,7 +44,7 @@ public class Network {
 			inputLayer.listIterator(i).next().setValue(inputValues[i]);		
 			for(int j = 0; j < mean;j++)
 			{
-				hiddenLayer.listIterator(j).next().addValue(inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i]);
+				hiddenLayer.listIterator(j).next().addValue(sigmoide(inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i]));
 				
 			}
 		}
@@ -50,12 +53,16 @@ public class Network {
 		{
 			for(int j = 0; j < outputSize;j++)
 			{
-				outputLayer.listIterator(j).next().addValue(hiddenLayer.listIterator().next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue());
+				outputLayer.listIterator(j).next().addValue(sigmoide(hiddenLayer.listIterator().next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue()));
 			}
 			
 		}		
 	}
-
+	
+	private double sigmoide(double netValue){
+		
+		return  1 / (1 + Math.exp( -netValue));
+	}
 
 	public ArrayList<Neuron> getInputLayer() {
 		return inputLayer;
@@ -116,6 +123,7 @@ public class Network {
 		this.mean = mean;
 	}
 
+	
 	
 	
 	
