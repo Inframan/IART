@@ -71,7 +71,16 @@ public class Network {
 		}
 	}
 
-	private void backPropagation(double ExpectedOutputValues[]){
+	
+	public void backPropagation(double ExpectedOutputValues[]){
+		updateDeltas(ExpectedOutputValues);
+		
+		updateWeights();
+		
+	}
+	
+	
+	private void updateDeltas(double ExpectedOutputValues[]){
 
 		for(int i = 0 ; i < outputSize; i++){
 
@@ -87,6 +96,29 @@ public class Network {
 			hiddenLayer.listIterator(i).next().setDelta(hiddenLayer.listIterator(i).next().getValue() * (1 - hiddenLayer.listIterator(i).next().getValue()) * hiddenLayer.listIterator(i).next().getErrorFactor());
 
 		}
+	}
+	
+	
+	private void updateWeights()
+	{
+		for(int i = 0; i < inputSize; i++)
+		{
+			for(int j = 0; j < hiddenSize; j++)
+			{
+				inputLayer.listIterator(i).next().getWeights().listIterator(j).set( inputLayer.listIterator(i).next().getWeights().listIterator(j).next() +
+						learningRate * 	hiddenLayer.listIterator(j).next().getValue()*hiddenLayer.listIterator(j).next().getDelta());
+			}
+		}
+		
+		for(int i = 0; i < hiddenSize; i++)
+		{
+			for(int j = 0; j < outputSize; j++)
+			{
+				hiddenLayer.listIterator(i).next().getWeights().listIterator(j).set( hiddenLayer.listIterator(i).next().getWeights().listIterator(j).next() +
+						learningRate * 	outputLayer.listIterator(j).next().getValue()*outputLayer.listIterator(j).next().getDelta());
+			}
+		}
+		
 	}
 
 	private double sigmoide(double netValue){
