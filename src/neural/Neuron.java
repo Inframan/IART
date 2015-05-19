@@ -10,7 +10,7 @@ public class Neuron {
 	public Neuron(int weightsSize) {
 		// TODO Auto-generated constructor stub
 		
-		
+		value = 0;
 		//Currents weights for all inputs
 		weights = new ArrayList<Double>();
 		for(int i = 0; i < weightsSize;i++)
@@ -33,6 +33,13 @@ public class Neuron {
 
 	public void setWeights(ArrayList<Double> weights) {
 		this.weights = weights;
+	}
+
+
+
+	public void addValue(double d) {
+		// TODO Auto-generated method stub
+		value += d;		
 	}
 	
 	
