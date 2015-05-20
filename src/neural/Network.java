@@ -3,30 +3,47 @@ package neural;
 import java.util.ArrayList;
 
 public class Network {
-	private ArrayList<Neuron> inputLayer, hiddenLayer, outputLayer;
-	private int inputSize, outputSize, hiddenSize;//Layer size
+	private ArrayList<Neuron> inputLayer, outputLayer;
+	private int inputSize, outputSize, hiddenLayersNumber;
+	private ArrayList<Integer> hiddenSizes;
+	private ArrayList<ArrayList<Neuron>> hiddenLayers;
 	private double learningRate;
 	private double minimalNetValue;
+	
 
-	public Network(int inputNumber,int outputNumber, double learningRate , double minNetValue) {
+	public Network(int inputNumber,int outputNumber, double learningRate , double minNetValue, int hiddenLayersNumber) {
 		// TODO Auto-generated constructor stub
 		inputSize = inputNumber;
 		outputSize = outputNumber;
-		hiddenSize = (inputNumber + outputNumber)/2;
+		this.hiddenLayersNumber = hiddenLayersNumber;
 		this.learningRate = learningRate;
 		minimalNetValue = minNetValue;
+		
 		inputLayer = new ArrayList<Neuron>();
-		hiddenLayer = new ArrayList<Neuron>();
+		hiddenLayers = new ArrayList<ArrayList<Neuron>>();
 		outputLayer = new ArrayList<Neuron>();
+		hiddenSizes = new ArrayList<Integer>();
 
 		for(int i = 0; i < inputSize; i++)
 		{
-			inputLayer.add(new Neuron(hiddenSize));
+			inputLayer.add(new Neuron((inputNumber + outputNumber)/2));//tamanho da primeira camada escondida
 		}
+		
 
-		for(int i = 0; i < hiddenSize; i++)
+		for(int i = 0; i < hiddenLayersNumber; i++)
 		{
-			hiddenLayer.add(new Neuron(outputSize));
+			int neuronsSize;
+			ArrayList<Neuron> tempLayer = new ArrayList<Neuron>();
+			if(i == 0)
+				neuronsSize = (inputNumber + outputNumber)/2;
+			else
+				neuronsSize = (hiddenSizes.listIterator(i-1).next() + outputNumber)/2;
+			hiddenSizes.add(neuronsSize);
+			for(int j = 0; j < neuronsSize; j++)
+			{
+				tempLayer.add(new Neuron((neuronsSize + outputNumber)/2));
+			}
+			hiddenLayers.add(tempLayer);
 		}
 
 		for(int i = 0; i < outputSize; i++)
@@ -34,28 +51,61 @@ public class Network {
 			outputLayer.add(new Neuron(0));
 		}
 	}
+	
+	
+	private void hiddenFrontPropagation()
+	{
+		for(int i = 0; i < hiddenLayersNumber -1;i++)//até à penúltima camada
+		{
+			
+			for(int j = 0; j < hiddenSizes.listIterator(i).next();j++)
+			{
+				for(int k = 0; k < hiddenSizes.listIterator(i+1).next(); k++)
+				{
+					double netValue = hiddenLayers.listIterator(i).next().listIterator(j).next().getWeights().listIterator(k).next() * hiddenLayers.listIterator(i).next().listIterator(j).next().getValue();
+					netValue += hiddenLayers.listIterator(i).next().listIterator(j).next().getBias();
+					
+					if(netValue >= minimalNetValue)
+					{
+						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(sigmoide(netValue));
+					}
+							
+					
+					
+				}
+			}
+			
+			
+		}
+		
+	}
+	
+	
 
 	public void frontPropagation(double inputValues[])
 	{
 		for(int i = 0; i < inputValues.length;i++)
 		{
 			inputLayer.listIterator(i).next().setValue(inputValues[i]);		
-			for(int j = 0; j < hiddenSize;j++)
+			for(int j = 0; j < hiddenSizes.listIterator(0).next();j++)
 			{	
 				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i];
 				netValue += inputLayer.listIterator(i).next().getBias();
 				
 				if(netValue >= minimalNetValue)
-					hiddenLayer.listIterator(j).next().addValue(sigmoide(netValue));
+					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(sigmoide(netValue));//primeira camada
 			}
 		}
 
-		for(int i = 0; i < hiddenSize;i++)
+		
+		hiddenFrontPropagation();
+		
+		for(int i = 0; i < hiddenSizes.listIterator(hiddenLayersNumber-1).next();i++)
 		{
 			for(int j = 0; j < outputSize;j++)
 			{
-				double netValue = hiddenLayer.listIterator().next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue();
-				netValue += hiddenLayer.listIterator(i).next().getBias();
+				double netValue =  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue();
+				netValue +=  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getBias();
 				
 				if(netValue >= minimalNetValue)
 					outputLayer.listIterator(j).next().addValue(sigmoide(netValue));
