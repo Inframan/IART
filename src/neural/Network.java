@@ -69,15 +69,9 @@ public class Network {
 					{
 						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(sigmoide(netValue));
 					}
-							
-					
-					
 				}
 			}
-			
-			
 		}
-		
 	}
 	
 	
@@ -96,7 +90,6 @@ public class Network {
 					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(sigmoide(netValue));//primeira camada
 			}
 		}
-
 		
 		hiddenFrontPropagation();
 		
@@ -110,14 +103,12 @@ public class Network {
 				if(netValue >= minimalNetValue)
 					outputLayer.listIterator(j).next().addValue(sigmoide(netValue));
 			}
-
 		}
 	}
 
 	public void backPropagation(double ExpectedOutputValues[]){
 		updateDeltas(ExpectedOutputValues);
 		updateWeightBias();
-
 	}
 	
 	private void updateHiddenDeltas()
@@ -131,7 +122,6 @@ public class Network {
 					hiddenLayers.listIterator(i).next().listIterator(j).next().addErrorFactor(hiddenLayers.listIterator(i+1).next().listIterator(k).next().getDelta() * hiddenLayers.listIterator(i).next().listIterator(k).next().getWeights().listIterator(j).next());  
 				}
 				hiddenLayers.listIterator(i).next().listIterator(j).next().setDelta(hiddenLayers.listIterator(i).next().listIterator(j).next().getValue() * (1 - hiddenLayers.listIterator(i).next().listIterator(j).next().getValue()) * hiddenLayers.listIterator(i).next().listIterator(j).next().getErrorFactor());
-				
 			}
 		}
 	}
