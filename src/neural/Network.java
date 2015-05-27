@@ -208,6 +208,16 @@ public class Network {
 
 		return  1 / (1 + Math.exp( -netValue));
 	}
+	
+	public double[] ArrayListToArray(ArrayList<Double> Doubles)
+	{
+	    double[] ret = new double[Doubles.size()];
+	    for (int i=0; i < ret.length; i++)
+	    {
+	        ret[i] = Doubles.get(i).doubleValue();
+	    }
+	    return ret;
+	}
 
 	public ArrayList<Neuron> getInputLayer() {
 		return inputLayer;
