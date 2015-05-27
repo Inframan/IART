@@ -95,30 +95,9 @@ public class NewtworkTest {
 		Network n = new Network(68, 2, 0.5, 0.5, 3);
 		FileReader f = new FileReader("default_features_1059_tracks.txt");
 
-		ArrayList<Double []> capitals = new ArrayList<Double []>();
+		
 		ArrayList<ArrayList<Double>> def = f.read();
-
-
-
-		for(int i = 0; i < def.size(); i++)
-		{
-			boolean inArray = false;;
-			Double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
-			for(int j = 0; j < capitals.size();j++)
-			{
-				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
-				{
-					inArray = true;
-					break;
-				}
-
-			}
-
-			if(!inArray)
-				capitals.add(coords);
-		}
-
-
+		ArrayList<Double> errors = new ArrayList<Double>();
 
 		for (int i = 0 ; i < def.size() ; i++){
 
@@ -126,7 +105,8 @@ public class NewtworkTest {
 			n.frontPropagation(n.ArrayListToArray(def.listIterator(i).next()));
 			double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
 			n.backPropagation(coords);
-
+			//error += Math.pow(outputLayer.getNeurons().get(i).getOutput()
+					- targetValues.get(i), 2);
 			// erro real da inha? 1/2   Sumatorio ( target output - output) ^2...
 			// guardar erro da linha 
 			// ler todas as linhas
