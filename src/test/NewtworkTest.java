@@ -154,7 +154,7 @@ public class NewtworkTest {
 		}
 		avgError /= errors.size();
 		
-		assertEquals("End error: ", avgError, 0, 0.0001);
+		assertEquals("End error: ",0, avgError, 0.0001);
 		//calcular media do erro
 		// if erro << 0,0001  -> acabar
 		// recomeçar do inicio

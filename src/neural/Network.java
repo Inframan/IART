@@ -154,7 +154,7 @@ public class Network {
 			{
 				for(int k = 0;k < hiddenSizes.listIterator(i+1).next();k++)
 				{
-					hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().listIterator(j).set( hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().listIterator(j).next() +
+					hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().set(j, hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().listIterator(j).next() +
 							learningRate * 	hiddenLayers.listIterator(i+1).next().listIterator(j).next().getValue()*hiddenLayers.listIterator(i+1).next().listIterator(j).next().getDelta());
 			
 				}
@@ -171,7 +171,7 @@ public class Network {
 		{
 			for(int j = 0; j < outputSize; j++)
 			{
-				hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().listIterator(j).set( hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().listIterator(j).next() +
+				hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().set(j, hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().listIterator(j).next() +
 						learningRate * 	outputLayer.listIterator(j).next().getValue()*outputLayer.listIterator(j).next().getDelta());
 			}
 
@@ -188,8 +188,10 @@ public class Network {
 		{	
 			for(int j = 0; j < hiddenSizes.listIterator(hiddenLayersNumber-1).next(); j++)
 			{
-				inputLayer.listIterator(i).next().getWeights().listIterator(j).set( inputLayer.listIterator(i).next().getWeights().listIterator(j).next() +
-						learningRate * 	hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getValue()*hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getDelta());
+				double temp= inputLayer.listIterator(i).next().getWeights().listIterator(j).next() +
+						learningRate * 	hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getValue()*hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getDelta();
+				
+				inputLayer.listIterator(i).next().getWeights().set(j, temp);
 			}
 
 			inputLayer.listIterator(i).next().updateBias(learningRate);
@@ -209,7 +211,7 @@ public class Network {
 		double avg = 0;
 		for(int i = 0; i < outputSize;i++ )
 		{
-			avg += outputLayer.listIterator(i).next().getDelta() * outputLayer.listIterator(i).next().getDelta();
+			avg += outputLayer.listIterator(i).next().getDelta();
 			
 		}	
 	
@@ -225,9 +227,9 @@ public class Network {
 			
 		}	
 		
-		for(int i = 0; i < hiddenLayersNumber; i++)
+		for(int i = 0; i < hiddenLayers.size(); i++)
 		{
-			for(int j = 0; i < hiddenLayers.listIterator(i).next().size(); j++)
+			for(int j = 0; j < hiddenLayers.listIterator(i).next().size(); j++)
 			{
 				
 				hiddenLayers.listIterator(i).next().listIterator(j).next().resetError();
