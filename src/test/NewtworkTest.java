@@ -1,18 +1,21 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
-import neural.*;
-import fileReader.*;
-import static org.junit.Assert.*;
+import neural.Network;
+import neural.Neuron;
 
 import org.junit.Test;
+
+import fileReader.FileReader;
 
 public class NewtworkTest {
 
 	@Test
 	public void propagationTest() {
-		Network net = new Network(3,2,0.5,0.5,2);
+		Network net = new Network(3,2,0.5,0.5,6);
 
 
 		double input[] = {1.0, 1.3, 1.5};
@@ -61,6 +64,13 @@ public class NewtworkTest {
 	{
 		FileReader f = new FileReader("default_features_1059_tracks.txt");
 
+		ArrayList<Double[]> capitals = capitalsReader(f);
+
+
+		assertEquals("Expected Size Output : ", 33, capitals.size(), 0);
+
+	}
+	private ArrayList<Double[]> capitalsReader(FileReader f) {
 		ArrayList<Double []> capitals = new ArrayList<Double []>();
 		ArrayList<ArrayList<Double>> def = f.read();
 
@@ -83,30 +93,50 @@ public class NewtworkTest {
 			if(!inArray)
 				capitals.add(coords);
 		}
-
-
-		assertEquals("Expected Size Output : ", 33, capitals.size(), 0);
-
+		return capitals;
 	}
 
 	@Test
 	public void RunApp(){
 
-		Network n = new Network(68, 2, 0.5, 0.5, 3);
+		Network n = new Network(68, 33, 0.5, 0.5, 1);
 		FileReader f = new FileReader("default_features_1059_tracks.txt");
 
+		ArrayList<Double[]> capitals = capitalsReader(f);
 		
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
 		for (int i = 0 ; i < def.size() ; i++){
 
+			double inputs[] = new double[68];
+			for(int k = 0; k < 67;k++)
+				inputs[k] = def.listIterator(i).next().listIterator(k).next();
 
-			n.frontPropagation(n.ArrayListToArray(def.listIterator(i).next()));
+			n.frontPropagation(inputs);
 			double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
-			n.backPropagation(coords);
+			double expectedOutput[] = new double[33];
+			
+			int j = 0;
+			
+			for(; j < capitals.size();j++)
+			{
+				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
+					expectedOutput[j] = 1;
+				else
+					expectedOutput[j] = 0;
+			}
+			
+			
+			
+			
+			n.backPropagation(expectedOutput);
+			
+			errors.add(n.errorsAvg());
+			
+			n.resetErrors();
 			//error += Math.pow(outputLayer.getNeurons().get(i).getOutput()
-					- targetValues.get(i), 2);
+					//- targetValues.get(i), 2);
 			// erro real da inha? 1/2   Sumatorio ( target output - output) ^2...
 			// guardar erro da linha 
 			// ler todas as linhas
@@ -114,6 +144,17 @@ public class NewtworkTest {
 			//array de erros
 
 		}
+		
+		double avgError = 0;
+		
+		for(int i = 0; i < errors.size();i++)
+		{
+			avgError += errors.listIterator(i).next();
+			
+		}
+		avgError /= errors.size();
+		
+		assertEquals("End error: ", avgError, 0, 0.0001);
 		//calcular media do erro
 		// if erro << 0,0001  -> acabar
 		// recomeçar do inicio
