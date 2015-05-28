@@ -9,7 +9,6 @@ public class Network {
 	private ArrayList<ArrayList<Neuron>> hiddenLayers;
 	private double learningRate;
 	private double minimalNetValue;
-	
 
 	public Network(int inputNumber,int outputNumber, double learningRate , double minNetValue, int hiddenLayersNumber) {
 		// TODO Auto-generated constructor stub
@@ -204,6 +203,41 @@ public class Network {
 		}
 	}
 
+	
+	public double errorsAvg()
+	{
+		double avg = 0;
+		for(int i = 0; i < outputSize;i++ )
+		{
+			avg += outputLayer.listIterator(i).next().getDelta() * outputLayer.listIterator(i).next().getDelta();
+			
+		}	
+	
+		return avg;
+	}
+	
+	
+	public void resetErrors()
+	{
+		for(int i = 0; i < outputSize;i++ )
+		{
+			outputLayer.listIterator(i).next().resetError();
+			
+		}	
+		
+		for(int i = 0; i < hiddenLayersNumber; i++)
+		{
+			for(int j = 0; i < hiddenLayers.listIterator(i).next().size(); j++)
+			{
+				
+				hiddenLayers.listIterator(i).next().listIterator(j).next().resetError();
+			}
+			
+		}
+		
+	}
+	
+	
 	private double sigmoide(double netValue){
 
 		return  1 / (1 + Math.exp( -netValue));

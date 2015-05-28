@@ -30,6 +30,14 @@ public class Neuron {
 	}
 	
 	
+	public void resetError()
+	{
+		value = 0;
+		delta = 0;
+		errorFactor = 0;
+		
+	}
+	
 	public double getBias() {
 		return bias;
 	}
