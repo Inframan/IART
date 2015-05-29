@@ -12,7 +12,7 @@ import org.junit.Test;
 import fileReader.FileReader;
 
 public class NewtworkTest {
-
+/*
 	@Test
 	public void propagationTest() {
 		Network net = new Network(3,2,0.5,0.5,6);
@@ -70,6 +70,7 @@ public class NewtworkTest {
 		assertEquals("Expected Size Output : ", 33, capitals.size(), 0);
 
 	}
+	*/
 	private ArrayList<Double[]> capitalsReader(FileReader f) {
 		ArrayList<Double []> capitals = new ArrayList<Double []>();
 		ArrayList<ArrayList<Double>> def = f.read();
@@ -96,6 +97,7 @@ public class NewtworkTest {
 		return capitals;
 	}
 
+	
 	@Test
 	public void RunApp(){
 
@@ -114,6 +116,7 @@ public class NewtworkTest {
 				inputs[k] = def.listIterator(i).next().listIterator(k).next();
 
 			n.frontPropagation(inputs);
+			
 			double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
 			double expectedOutput[] = new double[33];
 			
@@ -150,11 +153,14 @@ public class NewtworkTest {
 		for(int i = 0; i < errors.size();i++)
 		{
 			avgError += errors.listIterator(i).next();
-			
 		}
-		avgError /= errors.size();
+		
+		System.out.println("avgError: "+ avgError);
+		System.out.println("def size: " + def.size());
+		avgError /= def.size();
 		
 		assertEquals("End error: ",0, avgError, 0.0001);
+		
 		//calcular media do erro
 		// if erro << 0,0001  -> acabar
 		// recomeçar do inicio

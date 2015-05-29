@@ -23,7 +23,7 @@ public class Neuron {
 		//Currents weights for all inputs
 		weights = new ArrayList<Double>();
 		for(int i = 0; i < weightsSize;i++)
-			weights.add(1.0);
+			weights.add(0.1);
 		
 		Random randomBias = new Random();
 		bias = randomBias.nextDouble();

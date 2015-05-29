@@ -209,12 +209,14 @@ public class Network {
 	public double errorsAvg()
 	{
 		double avg = 0;
+		
 		for(int i = 0; i < outputSize;i++ )
 		{
+			System.out.println("delta: " + outputLayer.listIterator(i).next().getDelta());
 			avg += outputLayer.listIterator(i).next().getDelta();
-			
+			System.out.println("avg = " + avg);
 		}	
-	
+		
 		return avg;
 	}
 	
