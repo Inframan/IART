@@ -276,7 +276,7 @@ public class Network {
 
 	private double sigmoide(double netValue){
 
-		return  1 / (1 + Math.exp( -netValue));
+		return  (1.0) / (1.0 + Math.exp( -netValue));
 	}
 
 	public double[] ArrayListToArray(ArrayList<Double> Doubles)
