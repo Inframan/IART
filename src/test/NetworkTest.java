@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ import org.junit.Test;
 
 import fileReader.FileReader;
 
-public class NewtworkTest {
+public class NetworkTest {
 /*
 	@Test
 	public void propagationTest() {
@@ -155,11 +156,11 @@ public class NewtworkTest {
 			avgError += errors.listIterator(i).next();
 		}
 		
-		System.out.println("avgError: "+ avgError);
-		System.out.println("def size: " + def.size());
-		avgError /= def.size();
+		avgError *= 1/(2*def.size());
 		
-		assertEquals("End error: ",0, avgError, 0.0001);
+		assertTrue("End error: ", avgError >= 0);
+		assertTrue("End error: ", avgError <= 0.0001);
+		assertEquals("Output sum: ", 1 , n.outputSum() , 0.2);
 		
 		//calcular media do erro
 		// if erro << 0,0001  -> acabar

@@ -17,7 +17,7 @@ public class Network {
 		this.hiddenLayersNumber = hiddenLayersNumber;
 		this.learningRate = learningRate;
 		minimalNetValue = minNetValue;
-		
+
 		inputLayer = new ArrayList<Neuron>();
 		hiddenLayers = new ArrayList<ArrayList<Neuron>>();
 		outputLayer = new ArrayList<Neuron>();
@@ -27,7 +27,7 @@ public class Network {
 		{
 			inputLayer.add(new Neuron((inputNumber + outputNumber)/2));//tamanho da primeira camada escondida
 		}
-		
+
 
 		for(int i = 0; i < hiddenLayersNumber; i++)
 		{
@@ -50,30 +50,48 @@ public class Network {
 			outputLayer.add(new Neuron(0));
 		}
 	}
-	
-	
+
+
+	private void normalizeValues()
+	{
+		for(int i = 0; i < hiddenLayers.size();i++)
+		{
+			for(int j = 0; j < hiddenLayers.listIterator(i).next().size();j++)
+			{
+				double normalize = sigmoide(hiddenLayers.listIterator(i).next().listIterator(j).next().getValue());
+				hiddenLayers.listIterator(i).next().listIterator(j).next().setValue(normalize);
+			}
+		}
+
+		for(int i = 0; i < outputLayer.size(); i++)
+		{
+			double normalize = sigmoide(outputLayer.listIterator(i).next().getValue());
+			outputLayer.listIterator(i).next().setValue(normalize);
+		}
+
+	}
+
+
 	private void hiddenFrontPropagation()
 	{
 		for(int i = 0; i < hiddenLayersNumber -1;i++)//até à penúltima camada
 		{
-			
+
 			for(int j = 0; j < hiddenSizes.listIterator(i).next();j++)
 			{
 				for(int k = 0; k < hiddenSizes.listIterator(i+1).next(); k++)
 				{
 					double netValue = hiddenLayers.listIterator(i).next().listIterator(j).next().getWeights().listIterator(k).next() * hiddenLayers.listIterator(i).next().listIterator(j).next().getValue();
 					netValue += hiddenLayers.listIterator(i).next().listIterator(j).next().getBias();
-					
+
 					if(netValue >= minimalNetValue)
 					{
-						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(sigmoide(netValue));
+						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(netValue);
 					}
 				}
 			}
 		}
 	}
-	
-	
 
 	public void frontPropagation(double inputValues[])
 	{
@@ -84,32 +102,34 @@ public class Network {
 			{	
 				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i];
 				netValue += inputLayer.listIterator(i).next().getBias();
-				
+
 				if(netValue >= minimalNetValue)
-					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(sigmoide(netValue));//primeira camada
+					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(netValue);//primeira camada
 			}
 		}
-		
+
 		hiddenFrontPropagation();
-		
+
 		for(int i = 0; i < hiddenSizes.listIterator(hiddenLayersNumber-1).next();i++)
 		{
 			for(int j = 0; j < outputSize;j++)
 			{
 				double netValue =  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue();
 				netValue +=  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getBias();
-				
+
 				if(netValue >= minimalNetValue)
-					outputLayer.listIterator(j).next().addValue(sigmoide(netValue));
+					outputLayer.listIterator(j).next().addValue(netValue);
 			}
 		}
+
+		normalizeValues();
 	}
 
 	public void backPropagation(double ExpectedOutputValues[]){
 		updateDeltas(ExpectedOutputValues);
 		updateWeightBias();
 	}
-	
+
 	private void updateHiddenDeltas()
 	{
 		for(int i = hiddenLayersNumber -2; i > -1; i--)
@@ -124,15 +144,16 @@ public class Network {
 			}
 		}
 	}
-	
+
 	private void updateDeltas(double ExpectedOutputValues[]){
 
 		for(int i = 0 ; i < outputSize; i++){
-			outputLayer.listIterator(i).next().setErrorFactor(ExpectedOutputValues[i] - outputLayer.listIterator(i).next().getValue());			
-			outputLayer.listIterator(i).next().setDelta(outputLayer.listIterator(i).next().getValue() * (1 - outputLayer.listIterator(i).next().getValue()) * outputLayer.listIterator(i).next().getErrorFactor());
+			outputLayer.listIterator(i).next().setErrorFactor(ExpectedOutputValues[i] - outputLayer.listIterator(i).next().getValue());	
+			double newDelta = outputLayer.listIterator(i).next().getValue() * (1 - outputLayer.listIterator(i).next().getValue()) * outputLayer.listIterator(i).next().getErrorFactor();
+			outputLayer.listIterator(i).next().setDelta(newDelta);
 		}
 
-		
+
 		////Last hidden Layer
 		for( int i = 0 ; i < hiddenSizes.listIterator(hiddenLayersNumber -1).next(); i++)
 		{
@@ -140,12 +161,12 @@ public class Network {
 				hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().addErrorFactor(outputLayer.listIterator(j).next().getDelta() * hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().listIterator(j).next());			
 			hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().setDelta(hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getValue() * (1 - hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getValue()) * hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getErrorFactor());
 		}
-		
+
 		updateHiddenDeltas();
-		
+
 	}
 
-	
+
 	private void updateHiddenWeightBias()
 	{
 		for(int i = 0; i < hiddenLayersNumber-2; i++)
@@ -156,14 +177,14 @@ public class Network {
 				{
 					hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().set(j, hiddenLayers.listIterator(i).next().listIterator(i).next().getWeights().listIterator(j).next() +
 							learningRate * 	hiddenLayers.listIterator(i+1).next().listIterator(j).next().getValue()*hiddenLayers.listIterator(i+1).next().listIterator(j).next().getDelta());
-			
+
 				}
 				hiddenLayers.listIterator(i).next().listIterator(i).next().updateBias(learningRate);
-				
+
 			}
-			
-			
-			
+
+
+
 		}
 
 		//última camada
@@ -177,9 +198,9 @@ public class Network {
 
 			hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().updateBias(learningRate);
 		}
-		
-		
-		
+
+
+
 	}
 
 	private void updateWeightBias()
@@ -190,7 +211,7 @@ public class Network {
 			{
 				double temp= inputLayer.listIterator(i).next().getWeights().listIterator(j).next() +
 						learningRate * 	hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getValue()*hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(j).next().getDelta();
-				
+
 				inputLayer.listIterator(i).next().getWeights().set(j, temp);
 			}
 
@@ -198,63 +219,75 @@ public class Network {
 		}
 
 		updateHiddenWeightBias();
-		
+
 		for(int i = 0; i < outputSize; i++)
 		{
 			outputLayer.listIterator(i).next().updateBias(learningRate);
 		}
 	}
 
-	
+
 	public double errorsAvg()
 	{
 		double avg = 0;
-		
+
 		for(int i = 0; i < outputSize;i++ )
 		{
-			System.out.println("delta: " + outputLayer.listIterator(i).next().getDelta());
-			avg += outputLayer.listIterator(i).next().getDelta();
-			System.out.println("avg = " + avg);
+			avg += outputLayer.listIterator(i).next().getErrorFactor() ;
+			avg *= avg;
 		}	
-		
+
 		return avg;
 	}
-	
-	
+
+
+	public double outputSum()
+	{
+
+		double sum = 0;
+
+		for(int i = 0; i < outputSize;i++ )
+		{
+			sum += outputLayer.listIterator(i).next().getValue() ;
+		}	
+
+		return sum;
+	}
+
 	public void resetErrors()
 	{
 		for(int i = 0; i < outputSize;i++ )
 		{
 			outputLayer.listIterator(i).next().resetError();
-			
+
 		}	
-		
+
 		for(int i = 0; i < hiddenLayers.size(); i++)
 		{
 			for(int j = 0; j < hiddenLayers.listIterator(i).next().size(); j++)
 			{
-				
+
 				hiddenLayers.listIterator(i).next().listIterator(j).next().resetError();
 			}
-			
+
 		}
-		
+
 	}
-	
-	
+
+
 	private double sigmoide(double netValue){
 
 		return  1 / (1 + Math.exp( -netValue));
 	}
-	
+
 	public double[] ArrayListToArray(ArrayList<Double> Doubles)
 	{
-	    double[] ret = new double[Doubles.size()];
-	    for (int i=0; i < ret.length; i++)
-	    {
-	        ret[i] = Doubles.get(i).doubleValue();
-	    }
-	    return ret;
+		double[] ret = new double[Doubles.size()];
+		for (int i=0; i < ret.length; i++)
+		{
+			ret[i] = Doubles.get(i).doubleValue();
+		}
+		return ret;
 	}
 
 	public ArrayList<Neuron> getInputLayer() {
@@ -265,8 +298,8 @@ public class Network {
 		this.inputLayer = inputLayer;
 	}
 
-	
-	
+
+
 	public int getHiddenLayersNumber() {
 		return hiddenLayersNumber;
 	}
