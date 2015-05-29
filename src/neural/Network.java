@@ -92,7 +92,7 @@ public class Network {
 	{
 		for(int i = 0; i < inputValues.length;i++)
 		{
-			inputLayer.listIterator(i).next().setValue(inputValues[i]);		
+			inputLayer.listIterator(i).next().setValue(sigmoide(inputValues[i]));		
 			for(int j = 0; j < hiddenSizes.listIterator(0).next();j++)
 			{	
 				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i];

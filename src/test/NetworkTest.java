@@ -139,7 +139,7 @@ public class NetworkTest {
 
 				errors.add(n.errorsAvg());
 
-			//	n.resetErrors();
+				n.resetErrors();
 
 			}
 
