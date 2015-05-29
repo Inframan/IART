@@ -12,6 +12,7 @@ public class Network {
 
 	public Network(int inputNumber,int outputNumber, double learningRate , double minNetValue, int hiddenLayersNumber) {
 		// TODO Auto-generated constructor stub
+	
 		inputSize = inputNumber;
 		outputSize = outputNumber;
 		this.hiddenLayersNumber = hiddenLayersNumber;
@@ -52,21 +53,13 @@ public class Network {
 	}
 
 
-	private void normalizeValues()
+	private void normalizeValues(ArrayList<Neuron> layer)
 	{
-		for(int i = 0; i < hiddenLayers.size();i++)
-		{
-			for(int j = 0; j < hiddenLayers.listIterator(i).next().size();j++)
-			{
-				double normalize = sigmoide(hiddenLayers.listIterator(i).next().listIterator(j).next().getValue());
-				hiddenLayers.listIterator(i).next().listIterator(j).next().setValue(normalize);
-			}
-		}
 
-		for(int i = 0; i < outputLayer.size(); i++)
+		for(int j = 0; j < layer.size();j++)
 		{
-			double normalize = sigmoide(outputLayer.listIterator(i).next().getValue());
-			outputLayer.listIterator(i).next().setValue(normalize);
+			double normalize = sigmoide(layer.listIterator(j).next().getValue());
+			layer.listIterator(j).next().setValue(normalize);
 		}
 
 	}
@@ -83,13 +76,15 @@ public class Network {
 				{
 					double netValue = hiddenLayers.listIterator(i).next().listIterator(j).next().getWeights().listIterator(k).next() * hiddenLayers.listIterator(i).next().listIterator(j).next().getValue();
 					netValue += hiddenLayers.listIterator(i).next().listIterator(j).next().getBias();
-
-					if(netValue >= minimalNetValue)
-					{
+					
+					if (netValue >= minimalNetValue)
 						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(netValue);
-					}
+
 				}
+
+				normalizeValues(hiddenLayers.listIterator(i+1).next());
 			}
+
 		}
 	}
 
@@ -102,11 +97,12 @@ public class Network {
 			{	
 				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i];
 				netValue += inputLayer.listIterator(i).next().getBias();
-
-				if(netValue >= minimalNetValue)
+				if (netValue >= minimalNetValue)
 					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(netValue);//primeira camada
 			}
 		}
+
+		normalizeValues(hiddenLayers.listIterator(0).next());
 
 		hiddenFrontPropagation();
 
@@ -122,7 +118,7 @@ public class Network {
 			}
 		}
 
-		normalizeValues();
+		normalizeValues(outputLayer);
 	}
 
 	public void backPropagation(double ExpectedOutputValues[]){
@@ -149,7 +145,7 @@ public class Network {
 
 		for(int i = 0 ; i < outputSize; i++){
 			outputLayer.listIterator(i).next().setErrorFactor(ExpectedOutputValues[i] - outputLayer.listIterator(i).next().getValue());	
-			double newDelta = outputLayer.listIterator(i).next().getValue() * (1 - outputLayer.listIterator(i).next().getValue()) * outputLayer.listIterator(i).next().getErrorFactor();
+			double newDelta = outputLayer.listIterator(i).next().getValue() * (1.0 - outputLayer.listIterator(i).next().getValue()) * outputLayer.listIterator(i).next().getErrorFactor();
 			outputLayer.listIterator(i).next().setDelta(newDelta);
 		}
 
@@ -177,12 +173,12 @@ public class Network {
 				hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().set(j, hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().getWeights().listIterator(j).next() +
 						learningRate * 	outputLayer.listIterator(j).next().getValue()*outputLayer.listIterator(j).next().getDelta());
 			}
-			
+
 			hiddenLayers.listIterator(hiddenLayersNumber -1).next().listIterator(i).next().updateBias(learningRate);
 		}
-		
-		
-		
+
+
+
 		for(int i = hiddenLayersNumber-3; i >-1 ; i--)
 		{
 			for(int j = 0; j < hiddenSizes.listIterator(i).next();j++)
@@ -205,15 +201,15 @@ public class Network {
 
 	private void updateWeightBias()
 	{
-		
+
 		for(int i = 0; i < outputSize; i++)
 		{
 			outputLayer.listIterator(i).next().updateBias(learningRate);
 		}
-		
+
 		updateHiddenWeightBias();
-		
-		
+
+
 		for(int i = 0; i < inputSize; i++)
 		{	
 			for(int j = 0; j < hiddenSizes.listIterator(0).next(); j++)

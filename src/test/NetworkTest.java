@@ -110,7 +110,7 @@ public class NetworkTest {
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
-		for(int set = 0 ; set < 200; set++)
+		//for(int set = 0 ; set < 200; set++)
 			for (int i = 0 ; i < def.size() ; i++){
 
 				double inputs[] = new double[68];
@@ -139,14 +139,7 @@ public class NetworkTest {
 
 				errors.add(n.errorsAvg());
 
-				n.resetErrors();
-				//error += Math.pow(outputLayer.getNeurons().get(i).getOutput()
-				//- targetValues.get(i), 2);
-				// erro real da inha? 1/2   Sumatorio ( target output - output) ^2...
-				// guardar erro da linha 
-				// ler todas as linhas
-
-				//array de erros
+			//	n.resetErrors();
 
 			}
 
@@ -163,6 +156,7 @@ public class NetworkTest {
 		assertTrue("End error: ", avgError <= 0.0001);
 		assertEquals("Output sum: ", 1 , n.outputSum() , 0.2);
 
+		
 		//calcular media do erro
 		// if erro << 0,0001  -> acabar
 		// recomeçar do inicio
