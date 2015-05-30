@@ -95,7 +95,7 @@ public class Network {
 			inputLayer.listIterator(i).next().setValue(sigmoide(inputValues[i]));		
 			for(int j = 0; j < hiddenSizes.listIterator(0).next();j++)
 			{	
-				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputValues[i];
+				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * sigmoide(inputValues[i]);
 				netValue += inputLayer.listIterator(i).next().getBias();
 				if (netValue >= minimalNetValue)
 					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(netValue);//primeira camada
