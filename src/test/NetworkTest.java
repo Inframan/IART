@@ -110,11 +110,13 @@ public class NetworkTest {
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
-		//for(int set = 0 ; set < 200; set++)
-		for(int l = 0; l < 200 ; l++)
+	
 		for (int i = 0 ; i < def.size() ; i++){
-			if(l == 199)
-				System.out.println(i);
+
+			
+
+			n.resetErrors();
+			
 			double inputs[] = new double[68];
 			for(int k = 0; k < 67;k++)
 				inputs[k] = def.listIterator(i).next().listIterator(k).next();
@@ -139,10 +141,8 @@ public class NetworkTest {
 
 
 			n.backPropagation(expectedOutput);
-
+			
 			errors.add(n.errorsAvg());
-
-			n.resetErrors();
 
 		}
 
@@ -153,11 +153,15 @@ public class NetworkTest {
 			avgError += errors.listIterator(i).next();
 		}
 
-		avgError *= 1/(2*def.size());
+		avgError *= 1.0/(2*def.size());
 
-//		assertTrue("End error: ", avgError >= 0);
-//		assertTrue("End error: ", avgError <= 0.0001);
-		assertEquals("Output sum: ", 1 , n.outputSum() , 0.2);
+		double outputsum = n.outputSum();
+		System.out.println("error: " + avgError);
+		System.out.println("output sum: "+ outputsum);
+		
+		assertTrue("End error: expected positive", avgError >= 0);
+		assertTrue("End error: error must be < 0.0001", avgError <= 0.0001);
+		assertEquals("Output sum: ", 1 , outputsum , 0.2);
 
 
 		//calcular media do erro

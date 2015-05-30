@@ -224,12 +224,12 @@ public class Network {
 
 	public double errorsAvg()
 	{
-		double avg = 0;
+		double avg = 0.0;
 
 		for(int i = 0; i < outputSize;i++ )
 		{
-			avg += outputLayer.listIterator(i).next().getErrorFactor() ;
-			avg *= avg;
+			avg += outputLayer.listIterator(i).next().getErrorFactor() *outputLayer.listIterator(i).next().getErrorFactor() ;
+			
 		}	
 
 		return avg;
