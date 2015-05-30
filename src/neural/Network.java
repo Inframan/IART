@@ -58,7 +58,7 @@ public class Network {
 
 		for(int j = 0; j < layer.size();j++)
 		{
-			double normalize = sigmoide(layer.listIterator(j).next().getValue());
+			double normalize = sigmoide(layer.listIterator(j).next().getValue() + layer.listIterator(j).next().getBias());
 			layer.listIterator(j).next().setValue(normalize);
 		}
 
@@ -75,10 +75,8 @@ public class Network {
 				for(int k = 0; k < hiddenSizes.listIterator(i+1).next(); k++)
 				{
 					double netValue = hiddenLayers.listIterator(i).next().listIterator(j).next().getWeights().listIterator(k).next() * hiddenLayers.listIterator(i).next().listIterator(j).next().getValue();
-					netValue += hiddenLayers.listIterator(i).next().listIterator(j).next().getBias();
 					
-					if (netValue >= minimalNetValue)
-						hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(netValue);
+					hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(netValue);
 
 				}
 
@@ -95,10 +93,8 @@ public class Network {
 			inputLayer.listIterator(i).next().setValue(sigmoide(inputValues[i]));		
 			for(int j = 0; j < hiddenSizes.listIterator(0).next();j++)
 			{	
-				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * sigmoide(inputValues[i]);
-				netValue += inputLayer.listIterator(i).next().getBias();
-				if (netValue >= minimalNetValue)
-					hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(sigmoide(netValue));//primeira camada
+				double netValue = inputLayer.listIterator(i).next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue();
+				hiddenLayers.listIterator(0).next().listIterator(j).next().addValue(netValue);//primeira camada
 			}
 		}
 
@@ -113,7 +109,7 @@ public class Network {
 				double netValue =  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getWeights().listIterator(j).next() * inputLayer.listIterator(i).next().getValue();
 				netValue +=  hiddenLayers.listIterator(hiddenLayersNumber-1).next().listIterator(i).next().getBias();
 
-				if(netValue >= minimalNetValue)
+				
 					outputLayer.listIterator(j).next().addValue(netValue);
 			}
 		}

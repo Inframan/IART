@@ -26,9 +26,10 @@ public class Neuron {
 		Random randomBias = new Random();
 		
 		for(int i = 0; i < weightsSize;i++)
-			weights.add(randomBias.nextDouble());
+			weights.add(randomBias.nextDouble() * 2 - 2);
 		
 		bias = randomBias.nextDouble();
+		//bias = -0.5;
 	}
 	
 	
