@@ -1,6 +1,11 @@
 package neural;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
+
+import fileReader.FileReader;
 
 public class Network {
 	private ArrayList<Neuron> inputLayer, outputLayer;
@@ -267,6 +272,110 @@ public class Network {
 		}
 
 	}
+	
+	private ArrayList<Double[]> capitalsReader(FileReader f) {
+		ArrayList<Double []> capitals = new ArrayList<Double []>();
+		ArrayList<ArrayList<Double>> def = f.read();
+
+
+
+		for(int i = 0; i < def.size(); i++)
+		{
+			boolean inArray = false;;
+			Double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
+			for(int j = 0; j < capitals.size();j++)
+			{
+				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
+				{
+					inArray = true;
+					break;
+				}
+
+			}
+
+			if(!inArray)
+				capitals.add(coords);
+		}
+		return capitals;
+	}
+
+	public void Run(){
+
+		FileReader f = new FileReader("default_features_1059_tracks.txt");
+
+		ArrayList<Double[]> capitals = capitalsReader(f);
+
+		ArrayList<ArrayList<Double>> def = f.read();
+		ArrayList<Double> errors = new ArrayList<Double>();
+
+		for (int l = 0 ; l < 800; l++){
+			
+			/*
+			if ( l == 799)
+			{
+				System.out.println("cenas");
+			}
+			*/
+			
+			errors.clear();
+			for (int i = 0 ; i < def.size() ; i++){
+				
+				
+
+				resetErrors();
+
+				double inputs[] = new double[68];
+				for(int k = 0; k < 67;k++)
+					inputs[k] = def.listIterator(i).next().listIterator(k).next();
+
+				frontPropagation(inputs);
+
+
+				double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
+				double expectedOutput[] = new double[33];
+
+				int j = 0;
+
+				for(; j < capitals.size();j++)
+				{
+					if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
+						expectedOutput[j] = 1;
+					else
+						expectedOutput[j] = 0;
+				}
+
+
+
+
+				backPropagation(expectedOutput);
+
+				errors.add(errorsAvg());
+
+			}
+		}
+
+		double avgError = 0;
+		
+
+		for(int i = 0; i < errors.size();i++)
+		{
+			avgError += errors.listIterator(i).next();
+		}
+
+		avgError *= 1.0/(2*def.size());
+
+		double outputsum = outputSum();
+		System.out.println("error: " + avgError);
+		System.out.println("output sum: "+ outputsum);
+
+		
+		//calcular media do erro
+		// if erro << 0,0001  -> acabar
+		// recomeçar do inicio
+
+
+	}
+	
 
 
 	private double sigmoide(double netValue){
