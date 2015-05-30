@@ -8,16 +8,14 @@ public class Network {
 	private ArrayList<Integer> hiddenSizes;
 	private ArrayList<ArrayList<Neuron>> hiddenLayers;
 	private double learningRate;
-	private double minimalNetValue;
 
-	public Network(int inputNumber,int outputNumber, double learningRate , double minNetValue, int hiddenLayersNumber) {
+	public Network(int inputNumber,int outputNumber, double learningRate , int hiddenLayersNumber) {
 		// TODO Auto-generated constructor stub
 	
 		inputSize = inputNumber;
 		outputSize = outputNumber;
 		this.hiddenLayersNumber = hiddenLayersNumber;
 		this.learningRate = learningRate;
-		minimalNetValue = minNetValue;
 
 		inputLayer = new ArrayList<Neuron>();
 		hiddenLayers = new ArrayList<ArrayList<Neuron>>();
@@ -74,6 +72,7 @@ public class Network {
 			{
 				for(int k = 0; k < hiddenSizes.listIterator(i+1).next(); k++)
 				{
+					
 					double netValue = hiddenLayers.listIterator(i).next().listIterator(j).next().getWeights().listIterator(k).next() * hiddenLayers.listIterator(i).next().listIterator(j).next().getValue();
 					
 					hiddenLayers.listIterator(i+1).next().listIterator(k).next().addValue(netValue);
@@ -332,16 +331,6 @@ public class Network {
 
 	public void setLearningRate(double learningRate) {
 		this.learningRate = learningRate;
-	}
-
-
-	public double getMinimalNetValue() {
-		return minimalNetValue;
-	}
-
-
-	public void setMinimalNetValue(double minimalNetValue) {
-		this.minimalNetValue = minimalNetValue;
 	}
 
 
