@@ -51,8 +51,8 @@ O algoritmo usado foi o de retro-propagação. Este treina a rede da seguinte fo
 
 \begin{itemize}
 \item Recebe os dados na camada de \textit{input}, propagando-os para as camadas seguintes até os valores chegarem à camada de saída;
-\item  Trata calcular o erro (diferença entre os resultados obtidos e esperados) para cada neurónio na camada de saída, retro-propagando-os até à primeira camada interna;
-\item Actualizar os pesos de acordo com o erro de cada neurónio;
+\item  Calcula o erro (diferença entre os resultados obtidos e esperados) para cada neurónio na camada de saída, retro-propagando-os até à primeira camada interna;
+\item Actualiza os pesos de acordo com o erro de cada neurónio;
 \item Repetir até o erro da rede ser baixo o suficiente.
 \end{itemize}
 
@@ -82,7 +82,7 @@ A nossa aplicação foi dividida em 4 \textit{packages} (Figura 1):
 \\Figura 2: Diagrama do pacote neural\linebreak\linebreak
 
 
-\includegraphics[scale=0.5]{neural.png}
+\includegraphics[scale=0.5]{gui.png}
 \\Figura 3: Diagrama do pacote gui\linebreak\linebreak
 
 O trabalho desenvolveu-se da seguinte forma: \linebreak
@@ -92,14 +92,31 @@ Terceiramente, tratou-se de implementar a parte de \textit{backpropagation} do a
 Por fim, tratou-se de implementar da parte gráfica.
 
 \section{Experiências}
-Objectivo de cada experiência
-Resultados
+Experiências com o ficheiro sem atributos cromáticos:
 
+Experiência 1: Correr o ficheiro com apenas 1 música, um número aleatório de vezes
+Resultado: Todos os neurónios na camada de saída com um valor próximo de 0, excepto o um deles cujo resultado é próximo de 1.
+
+Experiência 2: Correr o ficheiro com todas as músicas, um número aleatório de vezes
+Resultado: Todos os neurónios na camada de saída ficam com um valor próximo de 0
+
+
+Experiências com o ficheiro com atributos cromáticos:
+
+Experiência 1: Correr o ficheiro com apenas 1 música, um número aleatório de vezes
+Resultado: Todos os neurónios na camada de saída com um valor próximo de 0, excepto um deles cujo resultado é próximo de 1.
+
+Experiência 2: Correr o ficheiro com todas as músicas, um número aleatório de vezes
+Resultado: Todos os neurónios na camada de saída ficam com um valor próximo de 0
+
+Experiência 3: Correr o ficheiro com 2 músicas, um número aleatório de vezes
+Resultado do 1º Input: Dois neurónios tendem para 1, os restantes tendem para 0 
+Resultado do 2º Input: O neurónio correcto com um valor próximo de 1, os restantes neurónios com um valor próximo de 0
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusões}
-Análise dos resultados das experiências levadas a cabo
+Com estes resultados foi possível concluir que a rede neuronal implementada não é capaz de resolver o problema proposto, com um número de \textit{inputs} grande. 
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -119,5 +136,7 @@ Sugestões para trabalho futuro
 
 %%%%%%%%%%%%%%%%%%
 \section{Apêndice}
+
+
 
 \end{document}
