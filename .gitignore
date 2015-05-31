@@ -3,3 +3,4 @@
 .classpath
 *.class
 *.txt
+src/neural/Network.java
