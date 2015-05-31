@@ -1,0 +1,100 @@
+\documentclass[a4paper]{article}
+
+\usepackage[portuguese]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage{hyperref}
+
+\bibliographystyle{plain}
+
+
+\begin{document}
+
+\setlength{\textwidth}{16cm}
+\setlength{\textheight}{22cm}
+
+\title{\Huge\textbf{Redes Neuronais para a Predição da Origem Geográfica de Música}\linebreak\linebreak\linebreak
+\Large\textbf{Relatório Final}\linebreak\linebreak
+\linebreak\linebreak
+\includegraphics[scale=0.1]{feuplogo.png}\linebreak\linebreak
+\linebreak
+\Large{Mestrado Integrado em Engenharia Informática e Computação} \linebreak\linebreak
+\Large{Inteligência Artifical}\linebreak
+}
+
+\author{\textbf{Grupo E4\_1:}\\ Gabriel Souto - 201208167 - ei12087@fe.up.pt \\ José Cardoso - 201202838 - ei12027@fe.up.pt \\\linebreak\linebreak \\
+ \\ Faculdade de Engenharia da Universidade do Porto \\ Rua Roberto Frias, s\/n, 4200-465 Porto, Portugal }
+\pagebreak
+
+
+\maketitle
+\thispagestyle{empty}
+
+%************************************************************************************************
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Objectivo}
+
+O objetivo deste trabalho consiste na aplicação de Redes Neuronais Artificiais na predição da origem geográfica de música, recorrendo ao algoritmo de \textit{Back-Propagation}.\linebreak
+A partir de um conjunto de exemplos, é possível treinar uma Rede Neuronal, para que esta depois possa ser usada na classificação de novos casos.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Especificação}
+Para se conseguir atingir o objectivo anteriormente referido, é preciso uma compreensão do \textit{dataset} que iremos usar, fornecido pelo \textit{UCI Machine Learning Repository} \href{http://tinyurl.com/qcxjzap}{aqui}. Este é composto por dois ficheiros que contêm informação de 1059 músicas oriundas de 33 países. O primeiro ficheiro contém 70 atributos, sendo os 68 primeiros atributos obtidos por uma análise das músicas, enquanto que os dois últimos contêm as coordenadas geográficas da capital do país a que pertencem. O segundo ficheiro contém 118 atributos, tendo-se adicionado aos atributos do ficheiro anterior uma análise cromática da música (as coordenadas geográficas continuam a ser os 2 últimos atributos). \linebreak
+A nossa abordagem consistiu da seguinte forma: primeiro implementar a rede neuronal, depois o algoritmo e no fim a \textit{gui}. Para representação de conhecimento, representamos cada um dos atributos fornecidos (excluindo os da posição geográfica) como um neurónio da camada de \textit{input}. A camada de \textit{output} é constituída por 33 neurónios, representando cada neurónio 1 país. Os neurónios iriam representar um país de acordo com a primeira vez que ele aparecesse no ficheiro, ou seja, a primeira música no ficheiro irá ter sempre como correcta saída o primeiro neurónio. Na camada de \textit{output}, é suposto um e apenas um neurónio ter o valor a 1 enquanto que os restantes devem ter o seu valor a 0.\linebreak
+O algoritmo usado foi o de retro-propagação. Este treina a rede da seguinte forma:
+
+\begin{itemize}
+\item Recebe os dados na camada de \textit{input}, propagando-os para as camadas seguintes até os valores chegarem à camada de saída;
+\item  Trata calcular o erro (diferença entre os resultados obtidos e esperados) para cada neurónio na camada de saída, retro-propagando-os até à primeira camada interna;
+\item Actualizar os pesos de acordo com o erro de cada neurónio;
+\item Repetir até o erro da rede ser baixo o suficiente.
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Desenvolvimento}
+
+O desenvolveu-se da seguinte forma: \linebreak
+Primeiramente, tratou-se da criação da rede neuronal em si (de acordo com os inputs fornecidos), ou seja, das camadas, dos neurónios e dos pesos.\linebreak
+Segundamente, tratou-se da implementação da parte de \textit{frontpropagation} do algoritmo, ou seja, das funções de somatório e de transeferência.\linebreak
+Terceiramente, tratou-se de implementar a parte de \textit{backpropagation} do algoritmo, ou seja, do cálculo do erro e do acerto dos pesos.\linebreak
+Por fim, tratou-se de implementar da parte gráfica.
+
+\section{Experiências}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusões}
+
+Descrever o módulo de interface com o utilizador em modo de texto.
+Que conclui deste projecto? Como poderia melhorar o trabalho desenvolvido?
+
+
+
+%%%%%%%%%%%%%%%%%%%%%
+\section{Melhoramentos}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Recursos}
+
+[1] Fang Zhou, Claire Q and Ross. D. King. Predicting the Geographical Origin of Music, ICDM.
+\url{http://archive.ics.uci.edu/ml/datasets/Geographical+Original+of+Music}, 2014
+
+\clearpage
+
+
+%%%%%%%%%%%%%%%%%%
+\section{Apêndice}
+
+\end{document}
