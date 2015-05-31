@@ -99,6 +99,7 @@ public class OPanel extends JPanel{
 				if (returnVal == JFileChooser.APPROVE_OPTION) {  
 						file= fc.getSelectedFile();  
 						sF.filename = file.getName();
+						System.out.println("filename: " + sF.filename);
 				}
 			}
 		});
