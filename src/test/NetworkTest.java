@@ -81,7 +81,7 @@ public class NetworkTest {
 		for(int i = 0; i < def.size(); i++)
 		{
 			boolean inArray = false;;
-			Double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
+			Double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-1).next() };
 			for(int j = 0; j < capitals.size();j++)
 			{
 				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
@@ -102,15 +102,15 @@ public class NetworkTest {
 	@Test
 	public void RunApp(){
 
-		Network n = new Network(68, 33, 0.5, 1, "default_features_1059_tracks.txt" );
-		FileReader f = new FileReader("default_features_1059_tracks.txt");
+		Network n = new Network(116, 33, 0.5, 1, "default_plus_chromatic_features_1059_tracks.txt" );
+		FileReader f = new FileReader("default_plus_chromatic_features_1059_tracks.txt");
 
 		ArrayList<Double[]> capitals = capitalsReader(f);
 
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
-		for (int l = 0 ; l < 800; l++){
+		//for (int l = 0 ; l < 800; l++){
 			
 			/*
 			if ( l == 799)
@@ -133,7 +133,7 @@ public class NetworkTest {
 				n.frontPropagation(inputs);
 
 
-				double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
+				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-1).next() };
 				double expectedOutput[] = new double[33];
 
 				int j = 0;
@@ -154,7 +154,7 @@ public class NetworkTest {
 				errors.add(n.errorsAvg());
 
 			}
-		}
+		//}
 
 		double avgError = 0;
 		
