@@ -127,7 +127,7 @@ public class NetworkTest {
 				n.resetErrors();
 
 				ArrayList<Double> inputs = new ArrayList<Double>();
-				for(int k = 0; k < def.listIterator(i).next().size() - 3;k++)
+				for(int k = 0; k < def.listIterator(i).next().size() - 2;k++)
 					inputs.add( def.listIterator(i).next().listIterator(k).next());
 
 				double normalInputs[] = new double[inputs.size()];
