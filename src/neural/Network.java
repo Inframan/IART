@@ -284,7 +284,7 @@ public class Network {
 		for(int i = 0; i < def.size(); i++)
 		{
 			boolean inArray = false;;
-			Double coords[] = {def.listIterator(i).next().listIterator(def.size()-2).next() , def.listIterator(i).next().listIterator(def.size()-1).next() };
+			Double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-1).next() };
 			for(int j = 0; j < capitals.size();j++)
 			{
 				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
