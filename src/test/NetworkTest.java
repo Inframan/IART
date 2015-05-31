@@ -13,19 +13,19 @@ import org.junit.Test;
 import fileReader.FileReader;
 
 public class NetworkTest {
-	/*
+	
 	@Test
 	public void propagationTest() {
-		Network net = new Network(3,2,0.5,0.5,6);
+		Network net = new Network(3,2,0.5,1,"default_features_1059_tracks.txt");
 
 
 		double input[] = {1.0, 1.3, 1.5};
 
 		net.frontPropagation(input);
 
-		assertEquals("1st Output Expected: ", 1.0, net.getOutputLayer().listIterator(0).next().getValue(), 1.3);
+		assertEquals("1st Output Expected: ", 0.5, net.getOutputLayer().listIterator(0).next().getValue(), 0.3);
 
-		assertEquals("1st Output Expected: ", 2.0, net.getOutputLayer().listIterator(0).next().getValue(), 1.3);
+		assertEquals("1st Output Expected: ", 0.5, net.getOutputLayer().listIterator(0).next().getValue(), 0.3);
 
 
 	}
@@ -71,7 +71,7 @@ public class NetworkTest {
 		assertEquals("Expected Size Output : ", 33, capitals.size(), 0);
 
 	}
-	 */
+	 
 	private ArrayList<Double[]> capitalsReader(FileReader f) {
 		ArrayList<Double []> capitals = new ArrayList<Double []>();
 		ArrayList<ArrayList<Double>> def = f.read();

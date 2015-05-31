@@ -122,7 +122,8 @@ Com estes resultados foi possível concluir que a rede neuronal implementada nã
 %%%%%%%%%%%%%%%%%%%%%
 \section{Melhoramentos}
 
-Sugestões para trabalho futuro
+Como a nossa rede não consegue aprender e ser treinada para um numero elevado de inputs, como podemos verificar pelas experiências, uma melhoria para o futuro seria descobrir o porquê disto. Ou seja, descobrir o passo da implementação do algoritmo que não se encontra completamente correcto, corrigí-lo e verificar os resultados obtidos através de utilizações de \textit{framework} prórias como o \textit{Weka}.
+Outra melhoria seria melhorar a visualização gráfica da rede, tornando mais interactiva visto que esta é uma representação estática do resultado final do algoritmo. Um exemplo seria fazer com que fosse possível ver cada iteração do mesmo ou fazer com que os neurónios pudessem ser movidos.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,7 +137,13 @@ Sugestões para trabalho futuro
 
 %%%%%%%%%%%%%%%%%%
 \section{Apêndice}
+O nosso projecto é constituído por 2 modos de utilização distintos, uma interface pela consola e outra gráfica.
 
+A interface pela consola é acedida através do IDE eclipse, executando o codigo apartir da classe NetworkTest.java. Esta é constituida por uma série de testes unitarios, sendo o ultimo a execução completa da rede neuronal.
 
+A interface gráfica é acedida através do IDE eclipse, executando o código apartir da classe Interface.java do package GUI. Esta consiste num menu inicial, no qual o utilizador pode escolher o número de valores de input, output e learning rate. O utilizador também deve selecionar o dataset pretendido através do botão “Load Dataset” que abrirá um file explorer para aceder ao ficheiro pretendido. Depois de isto tudo estar configurado, o utilizador deve clicar no botão “start” e aí ser-lhe-ão apresentados os neurónios, cada um com o seu valor, organizados em camadas codificadas por cor ( Preto para camada de input, Azul para as camadas e intermedias, e Verde ou Vermelho para a camada de output conforme seja o valor se aproxime de 0 (vermelho) ou 1 (verde)).
+
+\includegraphics[scale=0.5]{client.png}
+\\Figura 4: Interface gráfica\linebreak\linebreak
 
 \end{document}
