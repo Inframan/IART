@@ -326,12 +326,16 @@ public class Network {
 
 				resetErrors();
 
-				double inputs[] = new double[68];
+				ArrayList<Double> inputs = new ArrayList<Double>();
 				for(int k = 0; k < def.listIterator(i).next().size() - 3;k++)
-					inputs[k] = def.listIterator(i).next().listIterator(k).next();
+					inputs.add(def.listIterator(i).next().listIterator(k).next());
 
-				frontPropagation(inputs);
-
+				double normalInputs[] = new double[inputs.size()];
+				for(int index = 0;index < inputs.size();index++)
+					normalInputs[index] = inputs.listIterator(index).next();
+				
+				
+				frontPropagation(normalInputs);
 
 				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()).next() };
 				double expectedOutput[] = new double[33];
