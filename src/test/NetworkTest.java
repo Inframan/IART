@@ -110,7 +110,7 @@ public class NetworkTest {
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
-		//for (int l = 0 ; l < 800; l++){
+		for (int l = 0 ; l < 800; l++){
 			
 			/*
 			if ( l == 799)
@@ -127,7 +127,7 @@ public class NetworkTest {
 				n.resetErrors();
 
 				double inputs[] = new double[68];
-				for(int k = 0; k < 67;k++)
+				for(int k = 0; k < def.listIterator(i).next().size() - 3;k++)
 					inputs[k] = def.listIterator(i).next().listIterator(k).next();
 
 				n.frontPropagation(inputs);
@@ -147,14 +147,15 @@ public class NetworkTest {
 				}
 
 
-
+				if(l == 199)
+					System.out.println(l);
 
 				n.backPropagation(expectedOutput);
 
 				errors.add(n.errorsAvg());
 
 			}
-		//}
+		}
 
 		double avgError = 0;
 		

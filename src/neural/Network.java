@@ -327,13 +327,13 @@ public class Network {
 				resetErrors();
 
 				double inputs[] = new double[68];
-				for(int k = 0; k < 67;k++)
+				for(int k = 0; k < def.listIterator(i).next().size() - 3;k++)
 					inputs[k] = def.listIterator(i).next().listIterator(k).next();
 
 				frontPropagation(inputs);
 
 
-				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-1).next() };
+				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()).next() };
 				double expectedOutput[] = new double[33];
 
 				int j = 0;
