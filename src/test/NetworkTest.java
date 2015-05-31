@@ -102,7 +102,7 @@ public class NetworkTest {
 	@Test
 	public void RunApp(){
 
-		Network n = new Network(68, 33, 0.5, 1);
+		Network n = new Network(68, 33, 0.5, 1, "default_features_1059_tracks.txt" );
 		FileReader f = new FileReader("default_features_1059_tracks.txt");
 
 		ArrayList<Double[]> capitals = capitalsReader(f);

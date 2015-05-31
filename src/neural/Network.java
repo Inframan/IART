@@ -13,14 +13,16 @@ public class Network {
 	private ArrayList<Integer> hiddenSizes;
 	private ArrayList<ArrayList<Neuron>> hiddenLayers;
 	private double learningRate;
+	String filename;
 
-	public Network(int inputNumber,int outputNumber, double learningRate , int hiddenLayersNumber) {
+	public Network(int inputNumber,int outputNumber, double learningRate , int hiddenLayersNumber, String filename) {
 		// TODO Auto-generated constructor stub
 	
 		inputSize = inputNumber;
 		outputSize = outputNumber;
 		this.hiddenLayersNumber = hiddenLayersNumber;
 		this.learningRate = learningRate;
+		this.filename = filename;
 
 		inputLayer = new ArrayList<Neuron>();
 		hiddenLayers = new ArrayList<ArrayList<Neuron>>();
@@ -282,7 +284,7 @@ public class Network {
 		for(int i = 0; i < def.size(); i++)
 		{
 			boolean inArray = false;;
-			Double coords[] = {def.listIterator(i).next().listIterator(68).next() , def.listIterator(i).next().listIterator(69).next() };
+			Double coords[] = {def.listIterator(i).next().listIterator(def.size()-2).next() , def.listIterator(i).next().listIterator(def.size()-1).next() };
 			for(int j = 0; j < capitals.size();j++)
 			{
 				if(capitals.listIterator(j).next()[0].equals(coords[0]) && capitals.listIterator(j).next()[1].equals(coords[1]) )
@@ -301,7 +303,7 @@ public class Network {
 
 	public void Run(){
 
-		FileReader f = new FileReader("default_features_1059_tracks.txt");
+		FileReader f = new FileReader(filename);
 
 		ArrayList<Double[]> capitals = capitalsReader(f);
 

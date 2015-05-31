@@ -1,17 +1,21 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import neural.Network;
 import neural.Neuron;
 
 public class NPanel  extends JPanel{
-
+	
 	private static final long serialVersionUID = 1L;
 	Network neuronal;
 	private Graphics2D g2d;
@@ -21,13 +25,13 @@ public class NPanel  extends JPanel{
 
 	private NFrame nF;
 
-
-	public NPanel(NFrame nF) throws IOException {
+	public NPanel(NFrame nF, int inputNumber, int outputNumber, int hiddenLayersNumber, double learningRate, String filename) throws IOException {
 		this.nF = nF;
 		inputLayer = new ArrayList<Node>();
 		outputLayer = new ArrayList<Node>();
 		hiddenLayers = new ArrayList<ArrayList<Node>>();
-		neuronal = new Network(70, 33, 0.5, 1);
+		
+		neuronal = new Network(inputNumber, outputNumber, learningRate,hiddenLayersNumber,filename);
 		loadNeuronToNode();
 		neuronal.Run();
 		setFocusable(true);
@@ -64,27 +68,53 @@ public class NPanel  extends JPanel{
 	}
 	
 	
-		public void loadImage() throws IOException {
-			/*
-		wallIMG = ImageIO.read(new File("res/wall.png"));
-		pathIMG = ImageIO.read(new File("res/path.png"));
-		exitIMG = ImageIO.read(new File("res/exit.png"));
-		heroIMG = ImageIO.read(new File("res/hero.png"));
-		swordIMG = ImageIO.read(new File("res/sword.png"));
-		dragonIMG = ImageIO.read(new File("res/dragon.png"));
-		DragonSwordIMG = ImageIO.read(new File("res/dragonSword.png"));
-		heroSwordIMG = ImageIO.read(new File("res/HeroSword.png"));
-		sleepDragonIMG = ImageIO.read(new File("res/SleepDragon.png"));
-		eagleIMG = ImageIO.read(new File("res/eagle.png"));
-			 */
-		}
+	
 
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
 			g2d = (Graphics2D) g;
-			g2d.draw3DRect(20, 20, 50, 50, false);;
+			for(int i = 0 ; i < inputLayer.size(); i++){
+				
+				g2d.setColor(new Color(0,0,0));
+				g2d.drawRect(15, 45*i, 30, 30);
+				g2d.fillRect(15, 45*i, 30, 30);
+				inputLayer.listIterator(i).next().setNodeLbl(new JLabel("Value:" + inputLayer.listIterator(i).next().getNeuron().getValue(), JLabel.CENTER));
+				add(inputLayer.listIterator(i).next().getNodeLbl());
+				inputLayer.listIterator(i).next().getNodeLbl().setLocation(50, 45*i + 15);
+				
+			}
+			
+			int j = 0;
+			for( ; j < hiddenLayers.size(); j++){
+				for( int k = 0 ; k < hiddenLayers.listIterator(j).next().size(); k++){
+					g2d.setColor(new Color(0,0,255));
+					g2d.drawRect(45*j+ 150, 45*k , 30, 30);
+					g2d.fillRect(45*j+ 150, 45*k , 30, 30);
+					
+					hiddenLayers.listIterator(j).next().listIterator(k).next().setNodeLbl(new JLabel("Value:" + hiddenLayers.listIterator(j).next().listIterator(k).next().getNeuron().getValue(), JLabel.CENTER));
+					add(hiddenLayers.listIterator(j).next().listIterator(k).next().getNodeLbl());
+					hiddenLayers.listIterator(j).next().listIterator(k).next().getNodeLbl().setLocation(45*j + 185, 45*k + 15);
+					
+				}
+			}
+			
+			j++;
+			for (int l = 0 ; l < outputLayer.size(); l++){
+				if(outputLayer.listIterator(l).next().getNeuron().getValue() < 0.3)
+					g2d.setColor(new Color(255,0,0));
+				else
+					g2d.setColor(new Color(0,255,0));
+				g2d.drawRect(45*j + 200, 45*l , 30, 30);
+				g2d.fillRect(45*j + 200, 45*l , 30, 30);
+				
+				outputLayer.listIterator(l).next().setNodeLbl(new JLabel("Value:" + outputLayer.listIterator(l).next().getNeuron().getValue(), JLabel.CENTER));
+				add(outputLayer.listIterator(l).next().getNodeLbl());
+				outputLayer.listIterator(l).next().getNodeLbl().setLocation(45*j + 235, 45*l + 15);
+				
+			}
+			
 
 		}
 	}
