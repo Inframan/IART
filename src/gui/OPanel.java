@@ -46,7 +46,7 @@ public class OPanel extends JPanel{
 		btnFileLoad = new JButton("Load dataset");
 		Start = new JButton("Start");
 		
-		inputNumber = new JSpinner(new SpinnerNumberModel(70,1,200,1));
+		inputNumber = new JSpinner(new SpinnerNumberModel(68,1,200,1));
 		JFormattedTextField tf = ((JSpinner.DefaultEditor)inputNumber.getEditor()).getTextField();
 		tf.setHorizontalAlignment(JFormattedTextField.CENTER);
 		
