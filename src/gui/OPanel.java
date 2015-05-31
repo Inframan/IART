@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
@@ -32,6 +33,12 @@ public class OPanel extends JPanel{
 	private JButton Start;
 	
 	File file;
+	JLabel input = new JLabel("Input Number", JLabel.CENTER);
+	JLabel output = new JLabel("Output Number", JLabel.CENTER);
+	JLabel learning = new JLabel("Learning Rate Number", JLabel.CENTER);
+	JLabel hidden = new JLabel("Hidden Layers Number", JLabel.CENTER);
+	JLabel empty = new JLabel("",JLabel.CENTER);
+	JLabel empty2 = new JLabel("",JLabel.CENTER);
 	JSpinner inputNumber;
 	JSpinner outputNumber;
 	JSpinner learningRate;
@@ -149,10 +156,19 @@ public class OPanel extends JPanel{
 
 	private void addComponents()
 	{
+		add(input);
+		add(output);
 		add(inputNumber);
 		add(outputNumber);
+		add(hidden);
+		add(learning);
 		add(hiddenLayersNumber);
 		add(learningRate);
+		add(empty);
+		add(empty2);
+		
+		hidden.setVisible(false);
+		hiddenLayersNumber.setVisible(false);
 	}
 
 

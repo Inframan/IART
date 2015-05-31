@@ -29,7 +29,7 @@ public class NFrame {
 
 	int inputNumber;
 	int outputNumber;
-	int hiddenLayersNumber;
+	int hiddenLayersNumber = 1;
 	double learningRate = 0.5;
 	String filename;
 	
@@ -40,7 +40,7 @@ public class NFrame {
 		
 		
 		optionsPanel = new OPanel(this);
-		optionsPanel.setLayout(new GridLayout(1,0,0,0));
+		optionsPanel.setLayout(new GridLayout(6,4,0,0));
 		frmNetwork.add(optionsPanel);
 		
 		
@@ -48,7 +48,7 @@ public class NFrame {
 	
 	public void startNetworkPanel() throws IOException{
 		networkPanel = new NPanel(this, inputNumber, outputNumber , hiddenLayersNumber, learningRate, filename);
-		networkPanel.setPreferredSize(new Dimension( 2000,3200));
+		networkPanel.setPreferredSize(new Dimension( 2000,4000));
 		JScrollPane scrollFrame = new JScrollPane(networkPanel);
 		networkPanel.setAutoscrolls(true);
 		scrollFrame.setPreferredSize(new Dimension( 400,150));
@@ -64,7 +64,7 @@ public class NFrame {
 	public void start() {
 
 
-		frmNetwork.setSize(new Dimension(700, 100));
+		frmNetwork.setSize(new Dimension(700, 300));
 		frmNetwork.setResizable(false);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

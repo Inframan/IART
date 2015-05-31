@@ -310,7 +310,7 @@ public class Network {
 		ArrayList<ArrayList<Double>> def = f.read();
 		ArrayList<Double> errors = new ArrayList<Double>();
 
-		for (int l = 0 ; l < 800; l++){
+		for (int l = 0 ; l < 20; l++){
 			
 			/*
 			if ( l == 799)
@@ -331,13 +331,14 @@ public class Network {
 					inputs.add(def.listIterator(i).next().listIterator(k).next());
 
 				double normalInputs[] = new double[inputs.size()];
+				
 				for(int index = 0;index < inputs.size();index++)
 					normalInputs[index] = inputs.listIterator(index).next();
 				
 				
 				frontPropagation(normalInputs);
 
-				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()).next() };
+				double coords[] = {def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-2).next() , def.listIterator(i).next().listIterator(def.listIterator(i).next().size()-1).next() };
 				double expectedOutput[] = new double[33];
 
 				int j = 0;
